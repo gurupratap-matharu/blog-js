@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react'
+import Header from './components/Header'
+import Footer from './components/Footer'
+import Blog from './components/Blog'
+import blogsService from './services/blogs'
 
-function App() {
+const App = () => {
+
+  const [blogs, setBlogs] = useState([])
+
+  useEffect(() => {
+    console.log('useEffect...')
+    blogsService
+      .getAll()
+      .then(blogs => setBlogs(blogs))
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header />
+      <Blog blogs={blogs} />
+      <Footer />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
