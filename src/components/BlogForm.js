@@ -11,9 +11,9 @@ const BlogForm = () => {
                     <input type="text" name="" placeholder="author" />
                 </div>
                 <div>
-                    <input type="text" name="" placeholder="likes" />
+                    <input type="url" name="" placeholder="url" />
                 </div>
-                <button type="submit">Save</button>
+                <button type="submit">Create</button>
             </form>
         </div>
     )
