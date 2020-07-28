@@ -1,22 +1,35 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-const BlogForm = (props) => {
+const BlogForm = ({
+    handleBlogCreate,
+    handleTitleChange,
+    handleAuthorChange,
+    handleUrlChange
+}) => {
     return (
         <div>
-            <form onSubmit={props.handleBlogCreate}>
+            <form onSubmit={handleBlogCreate}>
                 <div>
-                    <input type="text" name="" placeholder="title" onChange={props.handleTitleChange} />
+                    <input type="text" name="" placeholder="title" onChange={handleTitleChange} />
                 </div>
                 <div>
-                    <input type="text" name="" placeholder="author" onChange={props.handleAuthorChange} />
+                    <input type="text" name="" placeholder="author" onChange={handleAuthorChange} />
                 </div>
                 <div>
-                    <input type="url" name="" placeholder="url" onChange={props.handleUrlChange} />
+                    <input type="url" name="" placeholder="url" onChange={handleUrlChange} />
                 </div>
                 <button type="submit">Create</button>
             </form>
         </div>
     )
+}
+
+BlogForm.propTypes = {
+    handleBlogCreate: PropTypes.func.isRequired,
+    handleTitleChange: PropTypes.func.isRequired,
+    handleAuthorChange: PropTypes.func.isRequired,
+    handleUrlChange: PropTypes.func.isRequired
 }
 
 export default BlogForm
