@@ -68,10 +68,10 @@ const App = () => {
     try {
       const createdBlog = await blogsService.create(newBlog)
       console.log('createdBlog', createdBlog)
+      setNotificationMessage(`Blog created! ${createdBlog.title} ${createdBlog.author} ${createdBlog.url}`)
       setTitle('')
       setAuthor('')
       setUrl('')
-      setNotificationMessage(`Blog created! ${createdBlog.title} ${createdBlog.author} ${createdBlog.url}`)
       setTimeout(() => {
         setNotificationMessage(null)
       }, 5000)
