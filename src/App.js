@@ -15,6 +15,9 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [notificationMessage, setNotificationMessage] = useState(null)
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   useEffect(() => {
     console.log('retreiving logged user if any...')
@@ -39,6 +42,47 @@ const App = () => {
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value)
+  }
+
+  const handleTitleChange = (event) => {
+    console.log('handleTitleChange:', event.target.value)
+    setTitle(event.target.value)
+  }
+
+  const handleAuthorChange = (event) => {
+    console.log('handleAuthorChange', event.target.value)
+    setAuthor(event.target.value)
+  }
+
+  const handleUrlChange = (event) => {
+    console.log('handleUrlChange', event.target.value)
+    setUrl(event.target.value)
+  }
+
+  const handleBlogCreate = async (event) => {
+    event.preventDefault()
+    console.log(`creating blog with title:${title} author:${author} url:${url}`)
+    const newBlog = {
+      title, author, url
+    }
+    try {
+      const createdBlog = await blogsService.create(newBlog)
+      console.log('createdBlog', createdBlog)
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+      setNotificationMessage(`Blog created! ${createdBlog.title} ${createdBlog.author} ${createdBlog.url}`)
+      setTimeout(() => {
+        setNotificationMessage(null)
+      }, 5000)
+
+    } catch (exception) {
+      console.log(exception)
+      setNotificationMessage('Something is broken!')
+      setTimeout(() => {
+        setNotificationMessage(null)
+      }, 5000);
+    }
   }
 
   const handleLogin = async (event) => {
@@ -91,7 +135,15 @@ const App = () => {
             {user.name} logged-in
             <button type="submit" onClick={handleLogout}>Logout</button>
           </div>
-          <BlogForm />
+          <BlogForm
+            title={title}
+            author={author}
+            url={url}
+            handleTitleChange={handleTitleChange}
+            handleAuthorChange={handleAuthorChange}
+            handleUrlChange={handleUrlChange}
+            handleBlogCreate={handleBlogCreate}
+          />
           <Blog blogs={blogs} />
         </div>}
       <Footer />
