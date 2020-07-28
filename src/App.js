@@ -17,22 +17,19 @@ const App = () => {
   const [notificationMessage, setNotificationMessage] = useState(null)
 
   useEffect(() => {
-    console.log('useEffect...')
-    blogsService
-      .getAll()
-      .then(blogs => {
-        console.log(blogs)
-        setBlogs(blogs)
-      })
-  }, [])
-
-  useEffect(() => {
     console.log('retreiving logged user if any...')
     const loggedInBlogUser = window.localStorage.getItem('loggedInBlogUser')
     if (loggedInBlogUser) {
       const user = JSON.parse(loggedInBlogUser)
       setUser(user)
       blogsService.setToken(user.token)
+
+      blogsService
+        .getAll()
+        .then(blogs => {
+          console.log(blogs)
+          setBlogs(blogs)
+        })
     }
   }, [])
 
@@ -51,12 +48,13 @@ const App = () => {
     try {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedInBlogUser', JSON.stringify(user))
-      loginService.setToken(user.token)
+      blogsService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
 
     } catch (exception) {
+      console.log(exception)
       setNotificationMessage('Wrong Credentials')
       setTimeout(() => {
         setNotificationMessage(null)
@@ -65,21 +63,37 @@ const App = () => {
     }
   }
 
+  const handleLogout = () => {
+    console.log('logging out...')
+    window.localStorage.removeItem('loggedInBlogUser')
+    blogsService.setToken(null)
+    setUser(null)
+    setUsername('')
+    setPassword('')
+  }
   return (
     <div>
       <Header />
       <Notification notificationMessage={notificationMessage} />
       {user === null ?
-        <LoginForm
-          handleLogin={handleLogin}
-          handleUsernameChange={handleUsernameChange}
-          handlePasswordChange={handlePasswordChange}
-          username={username}
-          password={password}
-        /> :
-        <p>You are logged-in</p>}
-      <BlogForm />
-      <Blog blogs={blogs} />
+        <div>
+          <p>Please login</p>
+          <LoginForm
+            handleLogin={handleLogin}
+            handleUsernameChange={handleUsernameChange}
+            handlePasswordChange={handlePasswordChange}
+            username={username}
+            password={password}
+          />
+        </div> :
+        <div>
+          <div>
+            {user.name} logged-in
+            <button type="submit" onClick={handleLogout}>Logout</button>
+          </div>
+          <BlogForm />
+          <Blog blogs={blogs} />
+        </div>}
       <Footer />
     </div>
   )
