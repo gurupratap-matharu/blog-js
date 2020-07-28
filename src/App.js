@@ -99,7 +99,7 @@ const App = () => {
 
     } catch (exception) {
       console.log(exception)
-      setNotificationMessage('Wrong Credentials')
+      setNotificationMessage('Wrong username of password')
       setTimeout(() => {
         setNotificationMessage(null)
       }, 5000)
