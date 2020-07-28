@@ -1,5 +1,6 @@
 import React from 'react'
 import BlogDetail from './BlogDetail'
+import PropTypes from 'prop-types'
 
 const Blog = ({ blogs }) => {
     return (
@@ -12,6 +13,10 @@ const Blog = ({ blogs }) => {
             )}
         </div>
     )
+}
+
+Blog.propTypes = {
+    blogs: PropTypes.array.isRequired
 }
 
 export default Blog
