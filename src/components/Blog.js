@@ -1,8 +1,16 @@
 import React from 'react'
+import BlogDetail from './BlogDetail'
 
-const Blog = () => {
+const Blog = ({ blogs }) => {
     return (
-        <div>Veer render body here</div>
+        <div>
+            {blogs.map((blog, i) =>
+                <BlogDetail
+                    key={i}
+                    blog={blog}
+                />
+            )}
+        </div>
     )
 }
 
