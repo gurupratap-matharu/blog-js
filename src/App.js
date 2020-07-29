@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 import blogsService from './services/blogs'
 import loginService from './services/login'
 
@@ -15,9 +16,8 @@ const App = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [notificationMessage, setNotificationMessage] = useState(null)
-    const [title, setTitle] = useState('')
-    const [author, setAuthor] = useState('')
-    const [url, setUrl] = useState('')
+
+    const blogFormRef = useRef()
 
     useEffect(() => {
         console.log('retreiving logged user if any...')
@@ -44,31 +44,14 @@ const App = () => {
         setPassword(event.target.value)
     }
 
-    const handleTitleChange = (event) => {
-        setTitle(event.target.value)
-    }
+    const createBlog = async (newBlog) => {
+        blogFormRef.current.toggleVisibility()
+        console.log('creating blog with details', newBlog)
 
-    const handleAuthorChange = (event) => {
-        setAuthor(event.target.value)
-    }
-
-    const handleUrlChange = (event) => {
-        setUrl(event.target.value)
-    }
-
-    const handleBlogCreate = async (event) => {
-        event.preventDefault()
-        console.log(`creating blog with title:${title} author:${author} url:${url}`)
-        const newBlog = {
-            title, author, url
-        }
         try {
             const createdBlog = await blogsService.create(newBlog)
             console.log('createdBlog', createdBlog)
             setNotificationMessage(`Blog created! ${createdBlog.title} ${createdBlog.author} ${createdBlog.url}`)
-            setTitle('')
-            setAuthor('')
-            setUrl('')
             setTimeout(() => {
                 setNotificationMessage(null)
             }, 5000)
@@ -132,15 +115,9 @@ const App = () => {
                         {user.name} logged-in
                         <button type="submit" onClick={handleLogout}>Logout</button>
                     </div>
-                    <BlogForm
-                        title={title}
-                        author={author}
-                        url={url}
-                        handleTitleChange={handleTitleChange}
-                        handleAuthorChange={handleAuthorChange}
-                        handleUrlChange={handleUrlChange}
-                        handleBlogCreate={handleBlogCreate}
-                    />
+                    <Togglable buttonLabel='Add' ref={blogFormRef}>
+                        <BlogForm createBlog={createBlog} />
+                    </Togglable>
                     <Blog blogs={blogs} />
                 </div>}
             <Footer />
