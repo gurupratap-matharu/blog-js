@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const BlogDetail = ({ blog }) => {
     return (
@@ -6,6 +7,10 @@ const BlogDetail = ({ blog }) => {
             {blog.title} - {blog.author} - {blog.likes}
         </div>
     )
+}
+
+BlogDetail.propTypes = {
+    blog: PropTypes.object.isRequired
 }
 
 export default BlogDetail
