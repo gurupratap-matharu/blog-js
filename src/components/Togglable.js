@@ -1,4 +1,4 @@
-import React, { useStage, useImperativeHandle, useState } from 'react'
+import React, { useImperativeHandle, useState } from 'react'
 import PropTypes from 'prop-types'
 
 const Togglable = React.forwardRef((props, ref) => {
