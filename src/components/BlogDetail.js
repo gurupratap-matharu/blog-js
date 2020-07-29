@@ -2,9 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const BlogDetail = ({ blog }) => {
+
+    const likes = blog.likes === undefined ? 0 : blog.likes
+    console.log(likes)
     return (
         <div>
-            {blog.title} - {blog.author} - {blog.likes}
+            <p>{blog.url}</p>
+            <p>likes {likes}</p>
+            <p>{blog.author}</p>
         </div>
     )
 }
