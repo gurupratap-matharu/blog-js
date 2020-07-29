@@ -1,23 +1,45 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const BlogForm = ({
-    handleBlogCreate,
-    handleTitleChange,
-    handleAuthorChange,
-    handleUrlChange
-}) => {
+const BlogForm = ({ createBlog }) => {
+
+    const [title, setTitle] = useState('')
+    const [author, setAuthor] = useState('')
+    const [url, setUrl] = useState('')
+
+    const handleTitleChange = (event) => {
+        setTitle(event.target.value)
+    }
+    const handleAuthorChange = (event) => {
+        setAuthor(event.target.value)
+    }
+
+    const handleUrlChange = (event) => {
+        setUrl(event.target.value)
+    }
+
+    const addBlog = (event) => {
+        event.preventDefault()
+        createBlog({
+            title: title,
+            author: author,
+            url:url
+        })
+        setTitle('')
+        setAuthor('')
+        setUrl('')
+    }
     return (
         <div>
-            <form onSubmit={handleBlogCreate}>
+            <form onSubmit={addBlog}>
                 <div>
-                    <input type="text" name="" placeholder="title" onChange={handleTitleChange} />
+                    <input type="text" name="" placeholder="title" value={title} onChange={handleTitleChange} />
                 </div>
                 <div>
-                    <input type="text" name="" placeholder="author" onChange={handleAuthorChange} />
+                    <input type="text" name="" placeholder="author" value={author} onChange={handleAuthorChange} />
                 </div>
                 <div>
-                    <input type="url" name="" placeholder="url" onChange={handleUrlChange} />
+                    <input type="url" name="" placeholder="url" value={url} onChange={handleUrlChange} />
                 </div>
                 <button type="submit">Create</button>
             </form>
@@ -26,10 +48,7 @@ const BlogForm = ({
 }
 
 BlogForm.propTypes = {
-    handleBlogCreate: PropTypes.func.isRequired,
-    handleTitleChange: PropTypes.func.isRequired,
-    handleAuthorChange: PropTypes.func.isRequired,
-    handleUrlChange: PropTypes.func.isRequired
+    createBlog: PropTypes.func.isRequired,
 }
 
 export default BlogForm
