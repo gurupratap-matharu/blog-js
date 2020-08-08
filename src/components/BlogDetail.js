@@ -2,11 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const BlogDetail = ({ blog }) => {
-
+    const blogStyle = {
+        paddingTop: 10,
+        paddingLeft: 2,
+        border: 'solid',
+        borderWidth: 1,
+        marginBottom: 5
+    }
     const likes = blog.likes === undefined ? 0 : blog.likes
-    console.log(likes)
     return (
-        <div>
+        <div style={blogStyle}>
             <p>{blog.url}</p>
             <p>likes {likes}</p>
             <p>{blog.author}</p>
